@@ -15,7 +15,7 @@ export default class App extends Component {
     evt.preventDefault();
     const msg = this.messageText.value;
 
-    this.socket.emit('chat message', msg);
+    this.socket.emit('chat message', { msg, location: window.location.href });
     this.props.onSend(msg)
 
     this.setState({

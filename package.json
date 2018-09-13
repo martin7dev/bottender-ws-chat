@@ -1,5 +1,5 @@
 {
-  "name": "melior-chatbox",
+  "name": "bottender-ws-chat",
   "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
     "dist": "microbundle --entry src/components/hello-world/index.js"
   },
   "keywords": [],
-  "author": "Zouhir <zouhir@zouhir.org>",
+  "author": "Dmitry Semenovsky <dsemenovsky@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^4.5.0",
