@@ -7,34 +7,51 @@ export default class App extends Component {
 
     this.socket = props.socket;
     this.state = {
-      messageText: null
+      disabled: true
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+  }
+
+  handleKeyUp (evt) {
+    this.setState({
+      disabled: evt.target.value == null || evt.target.value == '' 
+    })
   }
 
   handleSubmit (evt) {
     evt.preventDefault();
     const msg = this.messageText.value;
 
+    if (msg == null || msg == '') return
+
     this.socket.emit('chat message', { msg, location: window.location.href });
     this.props.onSend(msg)
 
+    this.messageText.value = null;
     this.setState({
-      messageText: null
+      disabled: true
     })
   }
 
   render(props, state) {
     return (
-      <div class='melior-chatbox__message-box'>
-        <form onSubmit={this.handleSubmit}>
+      <div class={styles.box}>
+        <form
+          className={styles.form}
+          onSubmit={this.handleSubmit}>
           <input 
+            className={styles.input}
             name='message-text'
             id='message-text'
-            value={state.messageText}
+            placeholder='Write a message...'
+            onKeyUp={this.handleKeyUp}
             ref={i => { this.messageText = i }} />
-          <input type='submit' value='Send' />
+          <input 
+            className={styles.button}
+            disabled={this.state.disabled}
+            type='submit' value='Send' />
         </form>
       </div>
     );

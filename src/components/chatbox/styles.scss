@@ -1,8 +1,55 @@
-html, body {
-	font: 14px/1.21 'Helvetica Neue', arial, sans-serif;
-	font-weight: 400;
+.chat_box {
+	display: flex;
+	position: fixed;
+	flex-direction: column;
+
+	width: 340px;
+	height: 440px;
+
+	bottom: 50px;
+	right: 50px;
+	z-index: 1000;
+
+	padding-top: 45px;
+
+	border: 1px solid #908DEA;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(#575757, 0.2);
 }
 
-h1 {
-	text-align: center;
+.open_button {
+	display: block;
+	position: fixed;
+
+	bottom: 50px;
+	right: 50px;
+	z-index: 1000;
+
+	background: #908DEA;
+
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+
+	box-shadow: 0 4px 12px rgba(#575757, 0.2);
+	background-repeat: no-repeat;
+	font-size: 0;
+
+	cursor: pointer;
+
+	background-position: center;
+	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='54px' height='46px' viewBox='0 0 54 46' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Artboard' transform='translate(-1313.000000, -903.000000)' fill='%23FFFFFF'%3E%3Cpath d='M1360.13615,940.112402 C1360.49544,943.250175 1361.76174,946.212708 1363.93506,949 C1357.94246,948.029832 1353.14778,945.093986 1349.551,940.192461 L1321,940.192461 C1316.58172,940.192461 1313,936.610739 1313,932.192461 L1313,911 C1313,906.581722 1316.58172,903 1321,903 L1359,903 C1363.41828,903 1367,906.581722 1367,911 L1367,932.192461 C1367,936.225039 1364.01632,939.560743 1360.13615,940.112402 Z' id='Rectangle-3'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+}
+
+.close_button {
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	font-size: 0;
+	background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='16px' height='16px' viewBox='0 0 16 16' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='close' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' stroke-linecap='round'%3E%3Cpath d='M0.5,0.5 L15.5,15.5' id='Line-2' stroke='%23908DEA'%3E%3C/path%3E%3Cpath d='M0.5,0.5 L15.5,15.5' id='Line-2' stroke='%23908DEA' transform='translate(8.000000, 8.000000) scale(1, -1) translate(-8.000000, -8.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+	border: none;
+	cursor: pointer;
 }

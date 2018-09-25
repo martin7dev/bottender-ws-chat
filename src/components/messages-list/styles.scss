@@ -1,34 +1,48 @@
 .messages {
 	display: flex;
 	flex-direction: column;
-	width: 360px;
-	height: 400px;
+	height: 100%;
+	overflow: scroll;
 
-	border: 1px solid blue;
-	border-radius: 6px;
+	padding: 0 15px;
 
 	&_list {
 		padding: 0;
+		margin: 0;
 		list-style-type: none;
 	}
 }
 
 .message {
-	display: flex;
-	width: auto;
-	background: rgba(120,120,120,0.2);
-	border-radius: 3px;
-	padding: 4px 9px;
-	margin-bottom: 20px;
+	
+	border-radius: 8px;
+	padding: 8px;
+
+	margin: 0 0 10px 0;
+
+	font-family: Helvetica Neue;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 300;
+	flex-wrap: wrap;
+	word-break: break-all;
+	
+	max-width: 80%;
+	align-self: flex-start;
 }
 
 .message_self {
 	composes: message;
 		
-	justify-content: flex-end;
-	background: rgba(blue,0.2);
+	margin-left: auto;
+	color: #fff;
+	background: #908DEA;
 }
 
 .message_reply {
 	composes: message;
+
+	color: #494949;
+	background: #EEEEEE;
+
 }

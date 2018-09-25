@@ -1,6 +1,35 @@
 import { h, Component } from "preact";
 import styles from "./styles.scss";
 
+
+// First, define a helper function.
+function animateScroll(element, duration) {
+  var start = element.scrollTop;
+  var end = element.scrollHeight;
+  var change = end - start;
+  var increment = 20;
+  function easeInOut(currentTime, start, change, duration) {
+    // by Robert Penner
+    currentTime /= duration / 2;
+    if (currentTime < 1) {
+      return change / 2 * currentTime * currentTime + start;
+    }
+    currentTime -= 1;
+    return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+  }
+  function animate(elapsedTime) {
+    elapsedTime += increment;
+    var position = easeInOut(elapsedTime, start, change, duration);
+    element.scrollTop = position;
+    if (elapsedTime < duration) {
+      setTimeout(function() {
+        animate(elapsedTime);
+      }, increment)
+    }
+  }
+  animate(0);
+}
+
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -10,7 +39,7 @@ export default class App extends Component {
       messages: []
     }
 
-    this.renderMessages = this.renderMessages.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
   componentDidMount() {
@@ -27,26 +56,26 @@ export default class App extends Component {
     })
   }
 
-  renderMessages () {
-    return (
-      <ul className={styles.messages_list}>
-        {
-          this.state.messages.map(msg => {
-            if (msg.type === 'message') {
-              return <li className={styles.message_self}>{msg.text}</li>
-            } else {
-              return <li className={styles.message_reply}>{msg.text}</li>
-            }
-          })
-        }
-      </ul>
-    )
+  scrollToBottom() {
+    animateScroll(this.messages, 150);
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom()
   }
   
   render(props, state) {
     return (
-      <div className={styles.messages}>
-        { this.renderMessages() }
+      <div className={styles.messages} ref={ref => this.messages = ref}>
+        {
+          this.state.messages.map(msg => {
+            if (msg.type === 'message') {
+              return <p className={styles.message_self}>{msg.text}</p>
+            } else {
+              return <p className={styles.message_reply}>{msg.text}</p>
+            }
+          })
+        }
       </div>
     );
   }
