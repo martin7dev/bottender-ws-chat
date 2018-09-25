@@ -13,9 +13,11 @@ export default class App extends Component {
     this.state = {
       sentMessage: null
     }
+
+    this.handleSend = this.handleSend.bind(this);
   }
 
-  handleSend = (msg) => {
+  handleSend (msg) {
     this.setState({ sentMessage: msg })
   }
 

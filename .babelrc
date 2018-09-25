@@ -1,3 +1,5 @@
 {
-  "presets": ["preact-widget-scripts/babel"]
+  "plugins": [
+    [ "transform-react-jsx", { "pragma": "h" }]
+  ]
 }

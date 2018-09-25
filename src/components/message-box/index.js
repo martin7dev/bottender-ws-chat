@@ -9,9 +9,11 @@ export default class App extends Component {
     this.state = {
       messageText: null
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit = (evt) => {
+  handleSubmit (evt) {
     evt.preventDefault();
     const msg = this.messageText.value;
 
@@ -31,7 +33,7 @@ export default class App extends Component {
             name='message-text'
             id='message-text'
             value={state.messageText}
-            ref={ref => this.messageText = ref } />
+            ref={i => { this.messageText = i }} />
           <input type='submit' value='Send' />
         </form>
       </div>

@@ -1,13 +1,7 @@
-let poly = require("preact-cli/lib/lib/webpack/polyfills");
-
-import { h } from "preact";
-import habitat from "preact-habitat";
+import { h, render } from "preact";
 
 import Widget from "./components/chatbox";
 
-let _habitat = habitat(Widget);
-
-_habitat.render({
-  selector: '[data-widget-host="habitat"]',
-  clean: true
-});
+render((
+   <Widget serverUrl="http://localhost:3000" />
+), document.body);

@@ -9,6 +9,8 @@ export default class App extends Component {
     this.state = {
       messages: []
     }
+
+    this.renderMessages = this.renderMessages.bind(this);
   }
 
   componentDidMount() {
@@ -25,7 +27,7 @@ export default class App extends Component {
     })
   }
 
-  renderMessages = () => {
+  renderMessages () {
     return (
       <ul className={styles.messages_list}>
         {
