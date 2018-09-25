@@ -2,17 +2,15 @@
   "name": "bottender-ws-chat",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/index.js",
-  "umd:main": "dist/index.umd.js",
-  "module": "dist/index.m.js",
-  "source": "components/chatbox/index.js",
+  "main": "build/bundle.js",
+  "source": "src/index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
     "build": "preact build --no-prerender --clean --template src/index.ejs --service-worker false",
     "serve": "npm run build && preact serve",
     "dev": "preact watch --template src/index.ejs",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "keywords": [],
   "author": "Dmitry Semenovsky <dsemenovsky@gmail.com>",
@@ -27,9 +25,7 @@
     "preact-cli": "^2.0.2",
     "preact-render-to-string": "^3.7.0",
     "preact-widget-scripts": "^0.6.0",
-    "sass-loader": "^6.0.6"
-  },
-  "dependencies": {
+    "sass-loader": "^6.0.6",
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
     "preact-habitat": "^3.1.0",
