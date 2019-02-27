@@ -12,16 +12,36 @@ export default class App extends Component {
     this.socket = io(props.serverUrl);
     this.state = {
       visible: false,
-      sentMessage: null
+      sentMessage: null,
+      messages: []
     }
 
     this.handleSend = this.handleSend.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
     this.openChat = this.openChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
   }
 
   handleSend (msg) {
-    this.setState({ sentMessage: msg })
+    this.setState({
+      messages: this.state
+        .messages
+        .concat({ 
+          content: msg, 
+          type: 'message'
+      })
+    })
+  }
+
+  handleMessage (msg) {
+    this.setState({
+      messages: this.state
+        .messages
+        .concat({ 
+          content: typeof(msg) === 'string' ? msg : msg.content,
+          type: typeof(msg) === 'string' ? 'reply' : msg.type,
+        })
+    })
   }
 
   openChat () {
@@ -41,7 +61,10 @@ export default class App extends Component {
             onClick={this.closeChat}>
             Close chat
           </button>
-          <MessagesList socket={this.socket} sentMessage={state.sentMessage} />
+          <MessagesList 
+            socket={this.socket}
+            messages={this.state.messages}
+            handleMessage={this.handleMessage} />
           <MessageBox socket={this.socket} onSend={this.handleSend} />
         </div>
       ) : (

@@ -15,7 +15,6 @@ function renderWidget (opts) {
 var BottenderWsChat = {
   init(opts) {
     const options = Object.assign(defaults, opts)
-    console.log(options)
 
     renderWidget(options)
   }

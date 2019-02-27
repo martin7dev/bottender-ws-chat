@@ -1,4 +1,5 @@
 import { h, Component } from "preact";
+import Markdown from 'preact-markdown'
 import styles from "./styles.scss";
 
 
@@ -35,26 +36,19 @@ export default class App extends Component {
     super(props)
     // TODO use context.
     this.socket = props.socket
-    this.state = {
-      messages: []
-    }
 
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.renderMessage = this.renderMessage.bind(this);
   }
 
   componentDidMount() {
-    this.socket.on('bot response', (msg) => {
-      this.setState({
-        messages: this.state.messages.concat({ text: msg, type: 'reply' })
-      })
-    });
+    this.socket.on('bot response', this.props.handleMessage)
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      messages: this.state.messages.concat({ text: nextProps.sentMessage, type: 'message' })
-    })
+  componentWillUnmount() {
+    this.socket.off('bot response', this.props.handleMessage)
   }
+
 
   scrollToBottom() {
     animateScroll(this.messages, 150);
@@ -63,18 +57,60 @@ export default class App extends Component {
   componentDidUpdate() {
     this.scrollToBottom()
   }
+
+  handleButtonClick (value) {
+    this.socket.emit('chat message', { msg: value, location: window.location.href });
+  }
+
+  renderMessage(msg) {
+    switch(msg.type) {
+      case 'message':
+        return <span className={styles.message_self}>{msg.content}</span>
+      case 'reply':
+        return <span className={styles.message_reply}>{msg.content}</span>
+      case 'buttons':
+        return this.renderButtons(msg.content)
+      case 'markdown':
+        return (
+          <span className={styles.message_reply}>
+            <Markdown
+              markdown={msg.content}
+              className={styles.message_reply} />
+          </span>
+        )
+      case 'image':
+        return <img src={msg.content} style={{ maxWidth: '50%' }} />
+      case 'file':
+        return (
+          <a 
+            href={msg.content.url} 
+            target='_blank'
+            className={styles.message_reply}>
+            {msg.content.name}
+          </a>
+        )
+      default:
+        return null
+    }
+  }
+
+  renderButtons(buttons) {
+    return buttons.map(button => (
+      <button 
+        onClick={() => this.handleButtonClick(button.payload)}>
+        {button.title}
+      </button>
+    ))
+  }
   
   render(props, state) {
     return (
-      <div className={styles.messages} ref={ref => this.messages = ref}>
+      <div 
+        className={styles.messages} 
+        ref={ref => this.messages = ref}>
         {
-          this.state.messages.map(msg => {
-            if (msg.type === 'message') {
-              return <p className={styles.message_self}>{msg.text}</p>
-            } else {
-              return <p className={styles.message_reply}>{msg.text}</p>
-            }
-          })
+          props.messages.map(msg => 
+            this.renderMessage(msg))
         }
       </div>
     );
