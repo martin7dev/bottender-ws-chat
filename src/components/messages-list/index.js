@@ -69,7 +69,11 @@ export default class App extends Component {
       case 'reply':
         return <span className={styles.message_reply}>{msg.content}</span>
       case 'buttons':
-        return this.renderButtons(msg.content)
+        return (
+          <div className={styles.buttons}>
+            {this.renderButtons(msg.content)}
+          </div>
+          )
       case 'markdown':
         return (
           <span className={styles.message_reply}>
@@ -97,6 +101,7 @@ export default class App extends Component {
   renderButtons(buttons) {
     return buttons.map(button => (
       <button 
+        className={styles.button}
         onClick={() => this.handleButtonClick(button.payload)}>
         {button.title}
       </button>
