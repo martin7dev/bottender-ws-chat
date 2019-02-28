@@ -39,6 +39,7 @@ export default class App extends Component {
     return (
       <div class={styles.box}>
         <form
+          autocomplete="off"
           className={styles.form}
           onSubmit={this.handleSubmit}>
           <input 
