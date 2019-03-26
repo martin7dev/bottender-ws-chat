@@ -43,6 +43,7 @@ export default class App extends Component {
 
   componentDidMount() {
     this.socket.on('bot response', this.props.handleMessage)
+    this.messages.scrollTop = this.messages.scrollHeight
   }
 
   componentWillUnmount() {
@@ -58,11 +59,24 @@ export default class App extends Component {
     this.scrollToBottom()
   }
 
-  handleButtonClick (value) {
-    this.socket.emit('chat message', { msg: value, location: window.location.href });
+  handleButtonClick (button) {
+    if (button.content_type === 'text') {
+      this.socket.emit('chat message', { 
+        msg: button.payload, 
+        location: window.location.href
+      });
+    }
+    if (button.content_type === 'json') {
+      this.socket.emit('chat message', { 
+        data: button.payload, 
+        location: window.location.href
+      });
+    }
   }
 
   renderMessage(msg) {
+    if (typeof msg.content === "undefined" || msg.content === null)
+      return null
     switch(msg.type) {
       case 'message':
         return <span className={styles.message_self}>{msg.content}</span>
@@ -102,7 +116,7 @@ export default class App extends Component {
     return buttons.map(button => (
       <button 
         className={styles.button}
-        onClick={() => this.handleButtonClick(button.payload)}>
+        onClick={() => this.handleButtonClick(button)}>
         {button.title}
       </button>
     ))
